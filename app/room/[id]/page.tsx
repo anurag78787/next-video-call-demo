@@ -21,7 +21,7 @@ const page = ({ params }: Props) => {
       serverSecret,
       roomID,
       randomID(5), // user ID
-      randomID(5) // username
+      "Anurag" // username
     );
 
     const zp = ZegoUIKitPrebuilt.create(kitToken);
