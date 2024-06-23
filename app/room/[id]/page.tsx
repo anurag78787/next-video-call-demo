@@ -51,7 +51,7 @@ const page = ({ params }: Props) => {
     });
   };
 
-  return <div className="w-full h-[92vh]" ref={myMeeting}></div>;
+  return <div className="w-full h-[100vh]" ref={myMeeting}></div>;
 };
 
 export default page;
