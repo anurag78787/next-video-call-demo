@@ -2,6 +2,7 @@
 import React from "react";
 import { ZegoUIKitPrebuilt } from "@zegocloud/zego-uikit-prebuilt";
 import { randomID } from "@/utils/helpers";
+import { useRouter } from 'next/router';
 
 interface Props {
   params: {
@@ -10,7 +11,12 @@ interface Props {
 }
 
 const page = ({ params }: Props) => {
+  const router = useRouter();
   const roomID = params.id;
+  
+  // Get username from query parameters
+  const query = router.query;
+  const username = query.username || "DefaultUsername"; // Provide a default username if not present
 
   const myMeeting = (element: HTMLDivElement) => {
     const appID = process.env.NEXT_PUBLIC_ZEGO_APP_ID;
@@ -21,7 +27,7 @@ const page = ({ params }: Props) => {
       serverSecret,
       roomID,
       randomID(5), // user ID
-      "Anurag" // username
+      username // username from URL
     );
 
     const zp = ZegoUIKitPrebuilt.create(kitToken);
@@ -32,13 +38,6 @@ const page = ({ params }: Props) => {
         {
           name: "Personal link",
           url: window.location.href,
-          // url:
-          //   window.location.protocol +
-          //   "//" +
-          //   window.location.host +
-          //   window.location.pathname +
-          //   "?roomID=" +
-          //   roomID,
         },
         {
           name: "Meeting ID",
