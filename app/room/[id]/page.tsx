@@ -10,7 +10,7 @@ interface Props {
   };
 }
 
-const page = ({ params }: Props) => {
+const Page = ({ params }: Props) => {
   const router = useRouter();
   const roomID = params.id;
   
@@ -53,4 +53,4 @@ const page = ({ params }: Props) => {
   return <div className="w-full h-[100vh]" ref={myMeeting}></div>;
 };
 
-export default page;
+export default Page;
