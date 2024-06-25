@@ -16,7 +16,7 @@ const Page = ({ params }: Props) => {
   
   // Get username from query parameters
   const query = router.query;
-  const username = query.username || "DefaultUsername"; // Provide a default username if not present
+  const username = Array.isArray(query.username) ? query.username[0] : query.username || "DefaultUsername"; // Provide a default username if not present
 
   const myMeeting = (element: HTMLDivElement) => {
     const appID = process.env.NEXT_PUBLIC_ZEGO_APP_ID;
