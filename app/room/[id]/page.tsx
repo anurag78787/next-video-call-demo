@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { ZegoUIKitPrebuilt } from "@zegocloud/zego-uikit-prebuilt";
 import { randomID } from "@/utils/helpers";
 import { useRouter } from 'next/router';
@@ -14,13 +14,19 @@ const Page = ({ params }: Props) => {
   const router = useRouter();
   const roomID = params.id;
   const meetingContainerRef = useRef<HTMLDivElement | null>(null);
+  const [username, setUsername] = useState<string | null>(null);
 
   useEffect(() => {
     if (router.isReady) {
       // Get username from query parameters
       const query = router.query;
-      const username = Array.isArray(query.username) ? query.username[0] : query.username || "DefaultUsername"; // Provide a default username if not present
+      const usernameFromQuery = Array.isArray(query.username) ? query.username[0] : query.username || "DefaultUsername";
+      setUsername(usernameFromQuery);
+    }
+  }, [router.isReady, router.query]);
 
+  useEffect(() => {
+    if (username && meetingContainerRef.current) {
       const myMeeting = (element: HTMLDivElement) => {
         const appID = process.env.NEXT_PUBLIC_ZEGO_APP_ID;
         const serverSecret = process.env.NEXT_PUBLIC_ZEGO_SERVER_SECRET || "";
@@ -53,11 +59,9 @@ const Page = ({ params }: Props) => {
         });
       };
 
-      if (meetingContainerRef.current) {
-        myMeeting(meetingContainerRef.current);
-      }
+      myMeeting(meetingContainerRef.current);
     }
-  }, [router.isReady, router.query, roomID]);
+  }, [username, roomID]);
 
   return <div className="w-full h-[100vh]" ref={meetingContainerRef}></div>;
 };
